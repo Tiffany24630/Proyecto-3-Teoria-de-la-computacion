@@ -1,11 +1,12 @@
 # Proyecto-3-Teoria-de-la-computacion
-Backend para una Máquina de Turing de **una sola cinta**, implementado con Python, FastAPI y PyYAML.
 
-## Requisitos
+##Backend para una Máquina de Turing de **una sola cinta**, implementado con Python, FastAPI y PyYAML.
+
+### Requisitos
 - Python 3.11 o superior recomendado.
 - `pip`.
 
-## Instalación
+### Instalación
 Desde la carpeta `backend`:
 
 ```bash
@@ -27,7 +28,7 @@ python -m uvicorn app.main:app --reload
 
 La API estará disponible en `http://127.0.0.1:8000`. La documentación interactiva está en `http://127.0.0.1:8000/docs`.
 
-## Endpoints
+### Endpoints
 - `GET /health`: comprueba que el servidor está activo.
 - `POST /api/v1/machines/validate`: valida un YAML sin ejecutar la máquina.
 - `POST /api/v1/simulations`: simula una cadena con una máquina descrita en YAML.
@@ -35,7 +36,7 @@ La API estará disponible en `http://127.0.0.1:8000`. La documentación interact
 
 Los endpoints reciben JSON con una propiedad `yaml` que contiene el documento YAML como texto. Esto permite que el editor de la interfaz envíe el contenido sin tener que guardar primero un archivo en el servidor.
 
-### Ejemplo de solicitud
+#### Ejemplo de solicitud
 ```json
 {
   "yaml": "mt:\n  states: [q0, qf]\n  input_alphabet: [a]\n  tape_alphabet: [a, B]\n  blank: B\n  initial_state: q0\n  accept_states: [qf]\n  transitions:\n    - state: q0\n      read: [a]\n      write: [a]\n      move: R\n      next: qf\n  inputs: [a]\n",
@@ -44,7 +45,7 @@ Los endpoints reciben JSON con una propiedad `yaml` que contiene el documento YA
 }
 ```
 
-## Formato YAML
+### Formato YAML
 El formato esperado sigue la guía del proyecto:
 
 ```yaml
@@ -67,7 +68,7 @@ mt:
 
 El ejemplo de arriba es ilustrativo; las transiciones de una cinta usan listas de un elemento para `read` y `write`. Si se omite `blank`, se usa `B`.
 
-### Reglas implementadas
+#### Reglas implementadas
 - La máquina tiene exactamente una cinta.
 - Cada transición debe leer y escribir exactamente un símbolo.
 - `move` admite `L`, `R` y `S` (sin movimiento).
@@ -76,7 +77,7 @@ El ejemplo de arriba es ilustrativo; las transiciones de una cinta usan listas d
 - Se valida que estados, alfabetos, símbolos y referencias de transiciones sean consistentes.
 - Se conserva el historial completo de descripciones instantáneas para que el frontend pueda reproducirlo.
 
-## Contrato de respuesta
+### Contrato de respuesta
 Cada paso contiene:
 
 - `step`: número de paso, empezando en 0.
@@ -90,16 +91,13 @@ La respuesta final incluye `status`, `accepted`, `reason`, `steps_count`, `final
 
 La cinta devuelta incluye las celdas representadas desde la primera posición almacenada hasta la última celda necesaria para la ejecución. `head_position` es un índice dentro del arreglo `tape`, no una coordenada absoluta de una cinta infinita.
 
-## Ejemplos incluidos
+### Ejemplos incluidos
 - `examples/recognizer.yaml`: máquina que reconoce cadenas no vacías de `a` seguidas por `b` en igual cantidad (`a^n b^n`, n >= 1).
 - `examples/alterer.yaml`: máquina alteradora que complementa cada bit (0→1 y 1→0).
 - `examples/invalid.yaml`: configuración deliberadamente inválida para probar validaciones.
 
-## Pruebas
+### Pruebas
 ```bash
 pip install pytest httpx
 pytest
 ```
-
-## Límites de responsabilidad
-Este backend no implementa la interfaz gráfica ni animaciones. Entrega datos estructurados para que el frontend represente cada descripción instantánea. El backend no asume cómo se verán la cinta o los controles.
