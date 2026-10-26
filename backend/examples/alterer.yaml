@@ -1,0 +1,30 @@
+# Máquina alteradora: complementa cada bit de una cadena binaria.
+# Cada 0 se convierte en 1 y cada 1 se convierte en 0; el cabezal avanza hasta el blanco y acepta. Es una alteración de la cinta de una sola pasada.
+mt:
+  states: [q0, q_accept]
+  input_alphabet: ["0", "1"]
+  tape_alphabet: ["0", "1", B]
+  blank: B
+  initial_state: q0
+  accept_states: [q_accept]
+  transitions:
+    - state: q0
+      read: ["0"]
+      write: ["1"]
+      move: R
+      next: q0
+    - state: q0
+      read: ["1"]
+      write: ["0"]
+      move: R
+      next: q0
+    - state: q0
+      read: [B]
+      write: [B]
+      move: S
+      next: q_accept
+  inputs:
+    - "01010"
+    - "11001"
+    - "10101"
+    - "00110"
