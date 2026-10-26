@@ -1,6 +1,6 @@
 # Proyecto-3-Teoria-de-la-computacion
 
-##Backend para una Máquina de Turing de **una sola cinta**, implementado con Python, FastAPI y PyYAML.
+## Backend para una Máquina de Turing de **una sola cinta**, implementado con Python, FastAPI y PyYAML.
 
 ### Requisitos
 - Python 3.11 o superior recomendado.
