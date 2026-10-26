@@ -1,0 +1,9 @@
+mt:
+  states: [q0, qf]
+  input_alphabet: [a, b]
+  tape_alphabet: [a, b, B]
+  blank: B
+  initial_state: q_missing
+  accept_states: [qf]
+  transitions: []
+  inputs: [ab]
