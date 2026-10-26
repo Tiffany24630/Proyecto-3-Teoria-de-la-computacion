@@ -49,20 +49,20 @@ def test_invalid_input_symbol_raises():
 
 def test_step_limit():
     yaml_text = '''
-        mt:
-        states: [q0, qf]
-        input_alphabet: [a]
-        tape_alphabet: [a, B]
-        blank: B
-        initial_state: q0
-        accept_states: [qf]
-        transitions:
-            - state: q0
-            read: [a]
-            write: [a]
-            move: S
-            next: q0
-        inputs: [a]
+    mt:
+      states: [q0, qf]
+      input_alphabet: [a]
+      tape_alphabet: [a, B]
+      blank: B
+      initial_state: q0
+      accept_states: [qf]
+      transitions:
+        - state: q0
+          read: [a]
+          write: [a]
+          move: S
+          next: q0
+      inputs: [a]
     '''
     machine = parse_machine(yaml_text)
     result = simulate(machine, "a", max_steps=3)

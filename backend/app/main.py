@@ -1,7 +1,13 @@
+if __name__ == "__main__" and __package__ is None:
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    __package__ = "app"
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from backend.app.routes import router
+from .routes import router
 
 app = FastAPI(
     title="Proyecto 3 - Simulador de Máquina de Turing",
@@ -30,3 +36,8 @@ def root() -> dict[str, str]:
         "docs": "/docs",
         "health": "/health",
     }
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="127.0.0.1", port=8000)

@@ -22,7 +22,7 @@ Instalar dependencias y ejecutar:
 
 ```bash
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 La API estará disponible en `http://127.0.0.1:8000`. La documentación interactiva está en `http://127.0.0.1:8000/docs`.

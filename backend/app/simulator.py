@@ -1,5 +1,5 @@
 from __future__ import annotations
-from backend.app.parser import Machine, Transition
+from .parser import Machine, Transition
 
 def _transition_view(transition: Transition | None) -> dict | None:
     if transition is None:

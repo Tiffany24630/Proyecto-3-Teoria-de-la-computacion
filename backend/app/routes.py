@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from backend.app.models import BatchSimulationRequest, BatchSimulationResponse, SimulationRequest, SimulationResponse, ValidationResponse, YamlRequest
-from backend.app.parser import MachineConfigError, parse_machine
-from backend.app.simulator import simulate, simulate_batch
+from .models import BatchSimulationRequest, BatchSimulationResponse, SimulationRequest, SimulationResponse, ValidationResponse, YamlRequest
+from .parser import MachineConfigError, parse_machine
+from .simulator import simulate, simulate_batch
 
 router = APIRouter()
 
