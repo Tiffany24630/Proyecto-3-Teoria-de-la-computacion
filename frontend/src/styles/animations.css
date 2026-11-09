@@ -1,0 +1,4 @@
+@keyframes headPulse { 0%,100%{transform:translateX(-50%) scale(1)} 50%{transform:translateX(-50%) scale(1.12)} }
+@keyframes cellIn { from{opacity:.35;transform:scale(.92)} to{opacity:1;transform:scale(1)} }
+@keyframes progress { from{width:0} to{width:100%} }
+.cell.changed strong{animation:cellIn .35s ease}.head span{animation:headPulse 1.3s ease-in-out infinite}.state-track span{transition:width .5s ease}
