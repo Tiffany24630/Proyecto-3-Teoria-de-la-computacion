@@ -69,7 +69,7 @@ export function HistoryPanel({ steps, currentStep, onSelect }: Props) {
               <span className="history-description">{describeStep(step)}</span>
               <span className="history-transition">
                 {transition
-                  ? `escribe ${transition.write[0]} · ${transition.move}`
+                  ? `δ(${transition.state}, ${transition.read[0] === 'B' ? '□' : transition.read[0]}) escribe ${transition.write[0] === 'B' ? '□' : transition.write[0]} · ${transition.move}`
                   : 'inicio · sin transición'}
               </span>
             </button>

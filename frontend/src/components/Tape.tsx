@@ -49,26 +49,26 @@ export function Tape({ step, previousStep }: Props) {
     <div className="tape-wrap">
       <div className="tape-label">CINTA</div>
       <div className="tape" ref={tapeRef}>
-        {start > 0 && <span className="tape-window-edge" aria-label="Hay celdas anteriores">…</span>}
+        {start > 0 && <span className="tape-window-edge" role="img" aria-label="Hay celdas anteriores">…</span>}
         {visibleTape.map((symbol, index) => {
           const tapeIndex = start + index;
           return (
-          <div
-            className={`cell ${tapeIndex === step.head_position ? 'active' : ''} ${tapeIndex === changedCell ? 'changed' : ''}`}
-            key={tapeIndex}
-          >
-            {tapeIndex === step.head_position && (
-              <div className="head">
-                <span>⌄</span>
-                <small>Cabezal · {symbol === 'B' ? '□' : symbol}</small>
-              </div>
-            )}
-            <strong>{symbol === 'B' ? '□' : symbol}</strong>
-            <em>{tapeIndex}</em>
-          </div>
+            <div
+              className={`cell ${tapeIndex === step.head_position ? 'active' : ''} ${tapeIndex === changedCell ? 'changed' : ''}`}
+              key={tapeIndex}
+            >
+              {tapeIndex === step.head_position && (
+                <div className="head">
+                  <span>⌄</span>
+                  <small>Cabezal · {symbol === 'B' ? '□' : symbol}</small>
+                </div>
+              )}
+              <strong>{symbol === 'B' ? '□' : symbol}</strong>
+              <em>{tapeIndex}</em>
+            </div>
           );
         })}
-        {end < tapeLength && <span className="tape-window-edge" aria-label="Hay celdas posteriores">…</span>}
+        {end < tapeLength && <span className="tape-window-edge" role="img" aria-label="Hay celdas posteriores">…</span>}
       </div>
       <div className="tape-legend">
         <span><i className="dot active-dot" /> leyendo</span>
