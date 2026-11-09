@@ -28,6 +28,21 @@ python -m uvicorn app.main:app --reload
 
 La API estará disponible en `http://127.0.0.1:8000`. La documentación interactiva está en `http://127.0.0.1:8000/docs`.
 
+### Ejecutar todo con Docker Compose
+Con Docker Desktop (incluyendo Docker Compose) iniciado, desde la raíz del proyecto ejecuta:
+
+```bash
+docker compose up --build
+```
+
+- Interfaz web: `http://localhost:8080`
+- API: `http://localhost:8080/api/v1`
+- Documentación de la API: `http://localhost:8080/docs`
+
+FastAPI sirve los archivos compilados del frontend y la API desde el mismo contenedor. Para detener los servicios, pulsa `Ctrl+C`; para eliminarlos, ejecuta `docker compose down`.
+
+La interfaz permite cargar o editar YAML, seleccionar ejemplos, ajustar el límite de pasos y ejecutar las entradas configuradas. Después de ejecutar, selecciona una entrada para recorrer su cinta, historial de descripciones instantáneas y estados.
+
 ### Endpoints
 - `GET /health`: comprueba que el servidor está activo.
 - `POST /api/v1/machines/validate`: valida un YAML sin ejecutar la máquina.
