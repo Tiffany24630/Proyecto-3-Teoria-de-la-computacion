@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useMemo, useState } from 'react';
+import { StrictMode, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { FastForward, Pause, Play, RotateCcw, SkipBack, SkipForward, Sparkles } from 'lucide-react';
 import './styles/animations.css';
@@ -16,11 +16,14 @@ const demoSteps: TapeStep[] = [
 
 function Tape({ step }: { step: TapeStep }) {
   const original = ['B','1','0','1','1','B','B'];
-  return <div className="tape-wrap"><div className="tape-label">CINTA</div><div className="tape">
-    {step.tape.map((symbol, index) => <div className={`cell ${index === step.head_position ? 'active' : ''} ${symbol !== original[index] ? 'changed' : ''}`} key={index}>
-      <strong>{symbol === 'B' ? '□' : symbol}</strong><em>{index}</em>
+  const tapeRef = useRef<HTMLDivElement>(null);
+  const [extraCells, setExtraCells] = useState(2);
+  useEffect(() => { const element = tapeRef.current; if (!element) return; const update = () => { const available = element.clientWidth; const required = Math.ceil(available / 76) - step.tape.length; setExtraCells(Math.max(2, Math.min(24, required))); }; update(); const observer = new ResizeObserver(update); observer.observe(element); return () => observer.disconnect(); }, [step.tape.length]);
+  const visibleTape = [...step.tape, ...Array(extraCells).fill('B')];
+  return <div className="tape-wrap"><div className="tape-label">CINTA</div><div className="tape" ref={tapeRef}>
+    {visibleTape.map((symbol, index) => <div className={`cell ${index === step.head_position ? 'active' : ''} ${symbol !== original[index] && index < original.length ? 'changed' : ''}`} key={index}>
+      {index === step.head_position && <div className="head"><span>⌄</span><small>Cabezal · {symbol === 'B' ? '□' : symbol}</small></div>}<strong>{symbol === 'B' ? '□' : symbol}</strong><em>{index}</em>
     </div>)}
-    <div className="head" style={{left: `${((step.head_position + 0.5) / step.tape.length) * 100}%`}}><span>●</span><small>cabezal</small></div>
   </div><div className="tape-legend"><span><i className="dot active-dot"/> leyendo</span><span><i className="dot changed-dot"/> modificado</span><span>□ blanco</span></div></div>;
 }
 
@@ -31,7 +34,7 @@ function SimulationControls({ step, playing, setPlaying, speed, setSpeed, onStep
   return <section className="controls panel"><div className="control-main"><button className="icon-btn" onClick={onReset} title="Reiniciar"><RotateCcw size={18}/><span className="button-label">Reiniciar</span></button><button className="icon-btn" disabled={step === 0} onClick={() => onStep(-1)} title="Paso anterior"><SkipBack size={19}/><span className="button-label">Anterior</span></button><button className="play-btn" onClick={() => finished ? onReset() : setPlaying(!playing)}>{playing ? <Pause size={20}/> : <Play size={20}/>}<span>{playing ? 'Pausar' : finished ? 'Volver a ejecutar' : 'Reproducir'}</span></button><button className="icon-btn" disabled={step === 4} onClick={() => onStep(1)} title="Paso siguiente"><SkipForward size={19}/><span className="button-label">Siguiente</span></button></div><div className="speed"><label>VELOCIDAD <b>{speed}x</b></label><input type="range" min="0.5" max="2" step="0.5" value={speed} onChange={e => setSpeed(Number(e.target.value))}/><FastForward size={15}/></div><div className="step-count"><b>PASO {String(step).padStart(2,'0')}</b><span>ejecutados</span></div></section>
 }
 
-function App() { const [stepIndex, setStepIndex] = useState(0); const [playing, setPlaying] = useState(false); const [speed, setSpeed] = useState(1); const [tab, setTab] = useState<'tape'|'diagram'|'history'>('tape'); const step = demoSteps[stepIndex];
+function App() { const [stepIndex, setStepIndex] = useState(0); const [playing, setPlaying] = useState(false); const [speed, setSpeed] = useState(1); const [tab, setTab] = useState<'tape'|'diagram'|'history'>('tape'); const step = {...demoSteps[stepIndex], transition: demoSteps[stepIndex].transition ?? demoSteps[Math.max(0, stepIndex - 1)].transition};
   useEffect(() => { if (!playing) return; if (stepIndex >= demoSteps.length - 1) { setPlaying(false); return; } const id = window.setTimeout(() => setStepIndex(n => n + 1), 1000 / speed); return () => clearTimeout(id); }, [playing, stepIndex, speed]);
   const lastStep = demoSteps[Math.max(0, stepIndex - 1)];
   const lastTransition = step.transition ?? lastStep.transition;
