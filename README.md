@@ -2,6 +2,9 @@
 
 ## Backend para una Máquina de Turing de **una sola cinta**, implementado con Python, FastAPI y PyYAML.
 
+### Video de presentación
+Link: https://youtu.be/babr32D4ozg 
+
 ### Requisitos
 - Python 3.11 o superior recomendado.
 - `pip`.
