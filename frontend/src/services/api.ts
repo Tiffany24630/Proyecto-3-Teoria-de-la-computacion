@@ -1,4 +1,10 @@
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '/api/v1').replace(/\/+$/, '');
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+const normalizedApiBaseUrl = configuredApiBaseUrl?.replace(/\/+$/, '');
+const API_BASE_URL = normalizedApiBaseUrl
+  ? normalizedApiBaseUrl.endsWith('/api/v1')
+    ? normalizedApiBaseUrl
+    : `${normalizedApiBaseUrl}/api/v1`
+  : '/api/v1';
 
 export type ValidationResponse = {
   valid: boolean;
