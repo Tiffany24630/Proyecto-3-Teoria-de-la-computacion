@@ -10,6 +10,7 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 @router.post("/api/v1/machines/validate", response_model=ValidationResponse)
+@router.post("/machines/validate", response_model=ValidationResponse)
 def validate_machine(request: YamlRequest) -> ValidationResponse:
     try:
         machine = parse_machine(request.yaml)
@@ -26,6 +27,7 @@ def validate_machine(request: YamlRequest) -> ValidationResponse:
     )
 
 @router.post("/api/v1/simulations", response_model=SimulationResponse)
+@router.post("/simulations", response_model=SimulationResponse)
 def run_simulation(request: SimulationRequest) -> SimulationResponse:
     try:
         machine = parse_machine(request.yaml)
@@ -40,6 +42,7 @@ def run_simulation(request: SimulationRequest) -> SimulationResponse:
     return SimulationResponse(**result)
 
 @router.post("/api/v1/simulations/batch", response_model=BatchSimulationResponse)
+@router.post("/simulations/batch", response_model=BatchSimulationResponse)
 def run_batch(request: BatchSimulationRequest) -> BatchSimulationResponse:
     try:
         machine = parse_machine(request.yaml)
